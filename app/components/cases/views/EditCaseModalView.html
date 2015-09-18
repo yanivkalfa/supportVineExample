@@ -1,0 +1,61 @@
+<div ng-form="caseForm">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" >×</button>
+    <h3>{{modalAction}} Case</h3>
+  </div>
+  <div class="modal-body overflow-visible">
+    <div class="row">
+      <div class="col-xs-12" >
+        <div class="btn-group pull-right btn-bolder" ng-class="{'missing-case-type' : missingCaseType}">
+          <label class="btn btn-success btn-sm" ng-class="{'active':isCaseType('Testimonial') }" ng-click="toggleCaseType('Testimonial')">
+          <span> Testimonial </span>
+          </label>
+          <label class="btn btn-warning btn-sm" ng-class="{'active':isCaseType('Enhancement') }" ng-click="toggleCaseType('Enhancement')" >
+          <span> Enhancement </span>
+          </label>
+          <label class="btn btn-danger btn-sm" ng-class="{'active':isCaseType('Bug')}" ng-click="toggleCaseType('Bug')">
+          <span> Bug </span>
+          </label>
+          <label class="btn btn-info btn-sm " ng-class="{'active':isCaseType('Question')}" ng-click="toggleCaseType('Question')">
+          <span> Question </span>
+          </label>
+        </div>
+        <label>Select Channel:</label>
+        <select ng-model="caze.channelKey" name="channel" ng-options="c.key as c.name for c in mychannels"  data-placeholder="Select a Channel*" required>
+          <option value="">No Channel Selected</option>
+        </select>
+        <div class="validation-errors" ng-show="(caseForm.channel.$dirty || invalidSubmitAttempt)">
+          <div class="validation-error" ng-show="(caseForm.channel.$dirty || invalidSubmitAttempt) && caseForm.channel.$error.required">
+            You need to assign this case to a channel before we can save it
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <input name="title" class="width-100" type="text"  placeholder="Enter a case title"
+                 ng-keypress="onKeyPress($event, caseForm)"
+                 ng-model="caze.title"
+                 required>
+          <div class="validation-errors" ng-show="(caseForm.title.$dirty || invalidSubmitAttempt)">
+            <div class="validation-error" ng-show="(caseForm.title.$dirty || invalidSubmitAttempt) && caseForm.title.$error.required">
+              You need to assign this case a title before we can save it
+            </div>
+          </div>
+        </div>    
+        <div class="space-4"></div>
+        <div class="form-group">
+          <input name="description" class="width-100" type="text" placeholder="Enter a description (optional)"
+                 ng-model="caze.description"
+                 ng-keypress="onKeyPress($event, caseForm)">
+        </div>
+      </div>          
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(caseForm)">{{modalAction}} case</button>
+  </div>
+</div>

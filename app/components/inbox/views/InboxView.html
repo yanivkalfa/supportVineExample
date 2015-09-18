@@ -1,0 +1,52 @@
+<div style="height:800px">
+  <div   class="col-md-3 bottom-left" >
+    <p></p>
+    <div class="input-group" >
+      <input class="form-control input-mask-product" placeholder="Filter by keyword..." autocomplete="off" type="text"
+             ng-model="sortFilter.filterBy"
+             ng-model-options="{ debounce: 400 }"
+             ng-change="channelFilterChanged()">
+      <span class="input-group-addon">
+        <i class="ace-icon fa fa-search nav-search-icon" ></i>
+      </span>
+    </div>
+
+    <p></p>
+
+    <select chosen="sortByOptions" style="width: 100%;" ng-model="sortFilter.sortBy" ng-options="c.key as c.value for c in sortByOptions" ng-change="loadMessages()"></select>
+
+    <p></p>
+
+    <div id="inboxListContainer" class="inboxList list-cards fancy-scrollbar" >
+      <div infinite-scroll='nextPage()' infinite-scroll-disabled='inboxPagerBusy'  ng-cloak  infinite-scroll-container="'#inboxListContainer'"
+           infinite-scroll-parent infinite-scroll-distance='1' >
+        <div class="glow block well wellInbox" style="cursor:pointer;"
+             ng-repeat=" message in messages | limitTo: messages.length  | filter: sortFilter.filterBy"
+             ng-class="{active:(selectedMessageKey==message.key)}"
+             ng-click="selectMessage(message)" >
+          <div class="msg">
+            <img  src="http://s.gravatar.com/avatar/{{message.from.emailAddress|md5}}?s=65" alt=""
+                  tooltip="{{(teamMemberHash[message.assignedTo.key] | fullName) || 'Unassigned'}}"
+                  tooltip-placement="left"
+                  tooltip-append-to-body="true"
+                  class="img-rounded">
+            <div class="msg-txt">
+              <p class="bolder bigger-120">{{message.from.emailAddress}}</p>
+              <p class="bolder bigger-120">{{message.subject}}</p>
+              <p>{{message.body | cropBody}}</p>
+              <p class="text-muted"> {{message.fromChannel.name}}, {{message.receivedDate |  friendlyTimestamp}} </p>
+            </div>
+          </div>
+        </div>
+        <div ng-show="!inboxPagerBusy && !(messages | limitTo: messages.length | filter: sortFilter.filterBy).length"
+             class="glow well agile-block wellInbox">
+          {{sortFilter.filterBy ? 'No matching messages for '+ (global.fromChannel.key|chanName:mychannels) + ' and ' + sortFilter.filterBy : 'No messages were found in '+(global.fromChannel.key|chanName:mychannels)+'.' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  class="col-md-9 bottom-right" >
+    <div  ui-view ></div>
+  </div>
+</div>

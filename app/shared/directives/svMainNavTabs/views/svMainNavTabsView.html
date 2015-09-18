@@ -1,0 +1,14 @@
+<li ng-class="{'active' : tab.active}" ng-repeat="tab in tabs track by tab.id" ng-if="!tab.access || userCanAccess(tab.access)">
+  <a ui-sref="{{tab.state}}">
+    <i class="menu-icon fa {{tab.icon}}"></i>
+    <span class="menu-text" ng-if="!tab.onClick">
+      {{tab.label}}
+      <span class="badge badge-success" ng-show="tab.msgCount!=null">{{tab.msgCount}}</span>
+    </span>
+    <span ng-if="tab.onClick">
+      {{tab.label}}
+      <span ng-click="tab.onClick(); $event.stopPropagation();"  class="badge badge-success">+</span>
+    </span>
+  </a>
+  <b class="arrow"></b>
+</li>

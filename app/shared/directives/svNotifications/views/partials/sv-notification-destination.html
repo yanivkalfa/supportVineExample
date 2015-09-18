@@ -1,0 +1,10 @@
+<span class="green bolder">
+  <span ng-switch="destination['@class']">
+    <a ng-switch-when=".Task" href="/#/cases/{{destination.parentCase.key}}">{{destination.name}}</a>
+    <span ng-switch-when=".TeamMemberService">{{destination.firstName}} {{destination.lastName}}</span>
+    <a class="green bolder" ng-switch-when=".Case" ui-sref="landing.cases.detail({key:destination.key})">{{destination.title}}</a>
+    <a class="green bolder" ng-switch-when=".EmailChannelMessage" h
+   ui-sref="landing.inbox.detail({key:destination.key})">{{destination.subject}}</a>
+    <span ng-switch-when=".Customer">{{destination.emailAddress}}</span>
+  </span>
+</span>

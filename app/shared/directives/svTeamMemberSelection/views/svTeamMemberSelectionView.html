@@ -1,0 +1,24 @@
+<span>
+  <a data-toggle="dropdown" class="dropdown-toggle {{buttonClass}}" ng-transclude></a>
+  <ul class="dropdown-menu {{dropdownClass}}">
+    <li ng-if="nullValue">
+      <a ng-click="select({$selectedMember: null})">
+        <i><img  class="img-rounded" src="http://s.gravatar.com/avatar/?s={{avatarSize ? avatarSize : '30'}}"></i>
+        <span class="user-name">{{null|fullNameForDropdown}}</span>
+      </a>
+    </li>
+
+    <li ng-repeat="teamMember in team | filter:{status:'ACTIVE'}" style="text-align: left;">
+
+
+      <a ng-if="teamHash" ng-click="select({$selectedMember: teamHash[teamMember.key]})">
+        <i><img class="img-rounded" src="http://s.gravatar.com/avatar/{{teamHash[teamMember.key].emailAddress|md5}}?s={{avatarSize ? avatarSize : '30'}}"/></i>
+        <span class="user-name">{{teamHash[teamMember.key]|fullNameForDropdown}}</span>
+      </a>
+      <a ng-if="!teamHash" ng-click="select({$selectedMember: teamMember})">
+        <i><img class="img-rounded" src="http://s.gravatar.com/avatar/{{teamMember.emailAddress|md5}}?s={{avatarSize ? avatarSize : '30'}}"/></i>
+        <span class="user-name">{{teamMember|fullNameForDropdown}}</span>
+      </a>
+    </li>
+  </ul>
+</span>

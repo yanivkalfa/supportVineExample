@@ -1,0 +1,91 @@
+<div class="col-md-7 tab-content inbox-page" style="border:none;margin-left:-6px;margin-right:6px;"   ng-cloak >
+  <!-- message Detail Tabs -->
+  <div id="msg" class="widget-box" ng-show="selectedMessage.key" >
+    <div class="widget-header">
+      <h4 class="lighter widget-title">{{selectedMessage.fromChannel.name}}</h4>
+      <span class="label label-danger arrowed" ng-hide="selectedMessage.assignedTo">Unassigned</span>
+    </div>
+
+    <div class="widget-body">
+      <div class="widget-main">
+
+        <div class="page5 well">
+          <div class="msg">
+            <img ng-if="selectedMessage.from.emailAddress" class="female img-rounded" src="http://s.gravatar.com/avatar/{{selectedMessage.from.emailAddress|md5}}?s=200" alt=""/>
+            <img ng-if="selectedMessage.assignedTo.emailAddress"
+                 tooltip="{{teamMemberHash[selectedMessage.assignedTo.key] | fullName}}"
+                 tooltip-placement="left"
+                 class="male small-img"
+                 src="http://s.gravatar.com/avatar/{{selectedMessage.assignedTo.emailAddress|md5}}?s=100" alt=""/>
+            <div class="clearfix"></div>
+            <div class="msg-txt">
+              <p class="bolder bigger-140">{{selectedMessage.from.emailAddress}}</p>
+              <p class="bolder bigger-140"> {{selectedMessage.subject}}</p>
+              <p class="text-muted"> {{selectedMessage.receivedDate|friendlyTimestamp}}, {{selectedMessage.receivedDate|date:'MMMM d, y'}} </p>
+              <!-- <p class="alert alert-success bolder"><i class="value-badge" style="height: 30px; width: 30px; padding-top: 5px;"><i class="ace-icon fa fa-dollar bigger-140"></i></i> {{selectedMessage.customerPlan}}</p> -->
+
+            </div>
+            <p class="message-body-overflow-height">
+              {{selectedMessage.body}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-5" ng-show="selectedMessage.key">
+
+  <!--sv-sticky-position -->
+  <div class="widget-box" style="margin-top:20px;" >
+    <div class="widget-header">
+      <h4 class="">Reply to Customer/Create Case</h4>
+    </div>
+    <div class="widget-body">
+      <div class="widget-main">
+        <a ng-click='archiveMessage(selectedMessage.key)' class="btn btn-primary" style="float:right;">Ignore & Archive</a>
+        <label>Assigned To:</label>
+        <div class="btn-group">
+          <sv-team-member-selection
+            null-value="true"
+            button-class="btn dropdown-toggle btn-primary"
+            select="assignTeamMember($selectedMember)">
+            {{teamMemberHash[toProcess.assignMember]|fullNameForDropdown}}
+            <span class="ace-icon fa fa-caret-down icon-on-right"></span>
+          </sv-team-member-selection>
+        </div>
+        <div style="margin-top: 10px;">
+          <div class="clearfix"></div>
+          <label class="bolder">Case Type: </label>
+          <div class="btn-group pull-right btn-bolder" ng-class="{'missing-case-type' : missingCaseType}">
+            <label class="btn btn-success btn-sm" ng-class="{'active':isCaseType('Testimonial')}" ng-click="toggleCaseType('Testimonial')">
+              <span> Testimonial </span>
+            </label>
+            <label class="btn btn-warning btn-sm" ng-class="{'active':isCaseType('Enhancement')}" ng-click="toggleCaseType('Enhancement')" >
+              <span> Enhancement </span>
+            </label>
+            <label class="btn btn-danger btn-sm" ng-class="{'active':isCaseType('Bug')}" ng-click="toggleCaseType('Bug')">
+              <span> Bug </span>
+            </label>
+            <label class="btn btn-info btn-sm " ng-class="{'active':isCaseType('Question')}" ng-click="toggleCaseType('Question')">
+              <span> Question </span>
+            </label>
+          </div>
+        </div>
+
+        <p></p>
+        <input type="text"  ng-model="toProcess.parentCase" placeholder="Select existing case or create new ..."
+               typeahead="case as '#'+case.caseNumber+' '+case.title  for case in getCases($viewValue)"  class="form-control"
+               typeahead-on-select='onSelectCase($item, $model, $label)'
+               typeahead-editable=false
+               typeahead-wait-ms="400"
+               typeahead-input-formatter="formatCaseDropdownValue($model)">
+        <p></p>
+        <textarea style="width: 100%; height: 126px;" class="form-control" placeholder="Enter email reply..." ng-model="toProcess.reply"></textarea>
+        <p></p>
+        <button type="submit" class="btn btn-primary btn-sm" ng-disabled="!actionButtonEnabled" ng-click="processMessage(selectedMessage.key)">{{selectedMessage|getProcessMessageActionTitleFilter:toProcess}}</button>
+      </div>
+    </div>
+  </div>
+</div>

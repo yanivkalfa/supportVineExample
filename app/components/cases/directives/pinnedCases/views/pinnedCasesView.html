@@ -1,0 +1,56 @@
+<a data-toggle="dropdown" class="dropdown-toggle">
+  <i class="ace-icon fa fa-briefcase"></i>
+  <span ng-if="user.pinnedCases.length" class="badge badge-important">{{user.pinnedCases.length}}</span>
+</a>
+
+<ul style="" class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+  <li class="dropdown-header">
+    <span class="pull-left"><i class="ace-icon fa fa-check"></i>
+      <span class="badge notificationCount">{{user.pinnedCases.length}}</span> Pinned Cases</span>
+    <span class="pull-right"
+          ng-show="user.pinnedCases.length"
+          ng-click="clearPinnedCases(user.pinnedCases)"> Clear All </span>
+
+    <div class="clearfix"></div>
+  </li>
+
+  <li style="position: relative;" class="dropdown-content ace-scroll">
+    <div style="display: none; height: 95px;" class="scroll-track">
+      <div style="height: 52px; top: 0px;" class="scroll-bar"></div>
+    </div>
+    <div style="" class="scroll-content">
+      <ul class="dropdown-menu dropdown-navbar navbar-pink">
+        <li ng-show='!user.pinnedCases.length'>
+          <a href="#">
+            <div class="clearfix">
+              <span class="pull-left">
+                <strong>No pinned cases!</strong> All your pinned cases will show up here
+              </span>
+            </div>
+          </a>
+        </li>
+
+        <li ng-repeat="pinnedCase in user.pinnedCases">
+          <div class="pull-left msg-body no-margin">
+            <span class="msg-title" ng-click="addTab(pinnedCase)">
+              #{{pinnedCase.caseNumber}} {{pinnedCase.title || 'N/A'}} ({{pinnedCase.channelKey | chanName}})
+            </span>
+            <span class="text-muted case-time msg-time msg-title">{{pinnedCase.updateDate|friendlyTimestamp}}</span>
+          </div>
+          <span class="pull-right">
+            <a ng-click="unpinCase(pinnedCase)">
+              <i class="pull-right fa fa-times"
+                 style=" margin-top: 10px; margin-right: 3px; font-size: 12px;"
+                 tooltip="Unpin Case"
+                 tooltip-placement="left">
+
+              </i>
+            </a>
+          </span>
+          <div class="clearfix"></div>
+        </li>
+
+      </ul>
+    </div>
+  </li>
+</ul>

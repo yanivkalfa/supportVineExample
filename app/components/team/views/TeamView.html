@@ -1,0 +1,19 @@
+<div class="col-md-12">
+  <div class="widget-box transparent" id="recent-box">
+    <div class="widget-header">
+
+      <ul class="nav nav-tabs" id="recent-tab">
+        <li ng-class="{'active' : getActiveTabName() === 'teamMembers'}">
+          <a ui-sref="landing.team.members" >Team Members</a>
+        </li>
+
+        <li ng-class="{'active' : getActiveTabName() === 'teamChannels'}">
+          <a ui-sref="landing.team.channels">Channels & Mail Accounts</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <div  class="widget-body" ui-view ></div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="widget-main padding-4">
+  <div class="tab-content padding-8" >
+
+    <div id="archivedMesages"  class="tab-pane active" >
+      <!-- #section:team -->
+      <div infinite-scroll='nextPage()' infinite-scroll-disabled='inboxPagerBusy' >
+        <div class="inboxList list-cards fancy-scrollbar"  style="height: 710px;">
+          <div class="glow block msga page4 well wellInbox" ng-repeat=" message in messages | limitTo: messages.length  track by message.key" style="cursor:pointer;"  >
+            <div class="msg">
+              <img class="female" src="http://s.gravatar.com/avatar/{{message.from.emailAddress|md5}}?s=100" alt=""/>
+              <img class="male small-img" src="http://s.gravatar.com/avatar/{{message.assignedTo.emailAddress|md5}}?s=100" alt=""/>
+              <div class="msg-txt">
+                <p class="bolder bigger-140">{{message.from.emailAddress}}</p>
+                <p class="bolder bigger-140">{{message.subject}}</p>
+                <p> {{message.body}}</p>
+                <p class="text-muted"> {{message.fromChannel.name}}, {{message.receivedDate |  friendlyTimestamp}} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /section:team  -->
+    </div><!-- /.#member-tab -->
+
+  </div>
+</div><!-- /.widget-main -->

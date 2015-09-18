@@ -1,0 +1,148 @@
+<div class="main-container">
+      <div class="main-content">
+      <div class="row">
+       <div class="space-6"></div>
+         <div class="col-sm-10 col-sm-offset-0">
+            <div class="center">
+              <h1>
+              Try
+              <!-- <img alt="Supportvine" height="40" id="logo" src="supportvine.svg" width="178"> -->
+              SupportVine 
+              free for 21 days
+            </h1>
+            <h4>
+              Test drive the Small plan
+              
+              (up to 5 users)
+              
+              and let Supportvine take away the worry &amp; hassle of customer support.
+            </h4>
+              </div>
+         </div>
+      </div>
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-0">
+            <div class="login-container">
+              <div class="position-relative">
+
+
+              
+                <div id="signup-box" class="signup-box widget-box no-border">
+                  <div class="widget-body">
+                    <div class="widget-main">
+                  
+
+
+                       <form name="userForm" rc-submit="signupUser()"   novalidate>
+                       
+                          <div class="form-group" ng-class="{'has-error': rc.userForm.needsAttention(userForm.fullname)}"  >
+                            <label class="control-label block clearfix">Your full name</label>
+
+                              <span class="block input-icon input-icon-right signup-input-span">
+                                <input type="text"  name="fullname" class="form-control" placeholder="John Doe" ng-model="newuser.fullName" required />
+                                
+                              </span>
+                              <p ng-show="rc.userForm.needsAttention(userForm.fullname) && userForm.fullname.$error.required" class="help-block">Required.</p>
+                          </div>
+                          <div class="form-group" ng-class="{'has-error': rc.userForm.needsAttention(userForm.company)}"  >
+                            <label class="control-label block clearfix">Company or organization</label>
+                              <span class="block input-icon input-icon-right signup-input-span">
+                                <input type="text" name="company" class="form-control" placeholder="Acme Inc." ng-model="newuser.companyName" required />
+                              
+                              </span>
+                             <p ng-show="rc.userForm.needsAttention(userForm.company) && userForm.company.$error.required" class="help-block">Required.</p>
+                          </div>
+
+                          <div class="form-group" ng-class="{'has-error': rc.userForm.needsAttention(userForm.email)}"  >
+                          <label class="control-label block clearfix">Your email</label>
+                            <span class="block input-icon input-icon-right signup-input-span">
+                              <input type="email" name="email" class="form-control" placeholder="jdoe@acme.com" ng-model="newuser.emailAddress" required/>
+                              
+                            </span>
+                              <p ng-show="rc.userForm.needsAttention(userForm.email) && userForm.email.$error.required" class="help-block">Required.</p>
+                              <p ng-show="rc.userForm.needsAttention(userForm.email) && userForm.email.$error.email" class="help-block">Invalid Email.</p>
+                         </div>
+
+                         <div class="form-group" ng-class="{'has-error': rc.userForm.needsAttention(userForm.password)}"  >
+                          <label class="control-label block clearfix">Password</label>
+                            <span class="block input-icon input-icon-right signup-input-span">
+                              <input type="password" name="password" class="form-control" placeholder="Hard to guess, easy to remember" ng-model="newuser.password"  required ng-pattern="/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20})$/"  />
+                              
+                            </span>
+                           <p ng-show="rc.userForm.needsAttention(userForm.password) && userForm.password.$error.required" class="help-block">Required.</p>
+                           <p ng-show="rc.userForm.needsAttention(userForm.password) && userForm.password.$error.pattern" class="help-block">Pasword must be minimum 6 character.</p>
+                         </div>
+
+
+                          <label class="block clearfix">Card Number</label>
+                            <span class="block input-icon input-icon-right signup-input-span">
+                              <input type="text" class="form-control" ng-model="newCard.number"  placeholder="1234 5678 9012 3456" />
+                              
+                            </span>
+                                           
+                          <div class="row">
+                              <div class="col-md-4">
+                                 
+                                    <label class="block clearfix">Exp Month</label>
+                                    <span class="block input-icon input-icon-right">
+                                      <input type="text" class="form-control" placeholder="MM" ng-model="newCard.expMonth" />
+                                      
+                                    </span>
+                                  
+                              </div>
+                              <div class="col-md-4">
+                                 
+                                   
+                                    <label class="block clearfix">Exp Year</label>
+                                    <span class="block input-icon input-icon-right">
+                                      <input type="text" class="form-control" placeholder="YYYY" ng-model="newCard.expYear"  />
+                                      
+                                    </span>
+                                  
+                              </div>
+                              <div class="col-md-4">
+                                 
+                                   <label class="block clearfix">CVC</label>
+                                    <span class="block input-icon input-icon-right">
+                                      <input type="text" class="form-control" placeholder="Ex. 331" ng-model="newCard.cvc"  />
+                                      
+                                    </span>
+
+                                 
+                              </div>
+                          </div>
+                                          
+
+
+                          <div class="space-24"></div>
+
+                          <div class="clearfix">
+                          
+
+                            <button type="submit" class=" btn btn-lg btn-success" >
+                              <span class="bigger-110">Start your 21-day free SupportVine trial</span>
+
+                            
+                            </button>
+                          </div>
+                        
+                      </form>
+                    </div>
+
+                    <!-- <div class="toolbar center">
+                      <a href="#" data-target="#login-box" class="back-to-login-link">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Back to login
+                      </a>
+                    </div> -->
+                  </div><!-- /.widget-body -->
+                </div><!-- /.signup-box -->
+              </div><!-- /.position-relative -->
+
+              
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.main-content -->
+    </div><!-- /.main-container -->
+

@@ -1,0 +1,30 @@
+<li class="item-orange clearfix" ng-mouseenter="showTaskActions=!showTaskActions" ng-mouseleave="showTaskActions=!showTaskActions" ng-init="showTaskActions=false">
+  <img ng-if="!team.length" style="height: 25px; margin-right: .5em;" class="img-rounded"
+       src="http://s.gravatar.com/avatar/{{task.owner.emailAddress|md5}}?s=25" alt="" >
+  <sv-team-member-selection
+    ng-if="team.length"
+    team="team"
+    team-hash="teamHash"
+    select="assignTask(task, $selectedMember)">
+    <img style="height: 25px; margin-right: .5em;" class="img-rounded"
+         src="http://s.gravatar.com/avatar/{{task.owner.emailAddress|md5}}?s=25" alt=""
+         tooltip="{{teamHash[task.owner.key] | fullName}}"
+         tooltip-placement="left">
+  </sv-team-member-selection>
+  <label class="inline">
+    <input class="ace" type="checkbox" ng-click="complete(task)" ng-model="task.complete"/>
+    <span class="lbl"></span>
+    <span class="lbl bolder" ng-class="{'strikethrough':task.complete }"> {{task.name}}</span>
+  </label>
+  <div class="pull-right" style="cursor:pointer;">
+    <span class="text-muted" style="margin-right: .5em;"> {{task.createDate|friendlyTimestamp}}</span>
+    <div class="btn-group" ng-show="showTaskActions">
+      <a ng-click="openEditTaskModal(task)" style="margin-left: .5em; color: #bbb;">
+        <span class="fa fa-pencil"></span>
+      </a>
+      <a ng-click="remove(task)" style="margin-left: .5em; color: #bbb;">
+        <span class="fa fa-times"></span>
+      </a>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,48 @@
+<div class="col-md-12">
+  <p class="bigger-160">Closing Your Account</p>
+  <p>
+    <strong>Please proceed carefully—if you choose to close your account, we will permanently delete all of your data in Support Vine.</strong>.
+  </p>
+  <p>Have you considered downgrading your account, instead?
+  </p>
+  <p>
+    <a href="" ng-click="openCloseConfirmBox()" >I'm sure, close my account.</a> (you can confirm or cancel in the next step)
+
+  </p>
+</div>
+<div class="col-md-12"  collapse="!displayCloseConfirm">
+
+  <p class="bigger-140">What Will Happen</p>
+  <ol>
+
+    <li>After you click <strong>YES, please close my account</strong>, we will immediately disable any future scheduled billing.</li>
+
+    <li>Your password and URL will immediately stop working for all of your users.</li>
+    <li>Any shared invoices will no longer be accessible by your clients.</li>
+    <li><strong>In interest of your privacy, your data will be permanently deleted.</strong></li>
+  </ol>
+  <p>If you understand and agree, please fill in the form and click on "YES, please close my account" to close your Support Vine account:</p>
+  <div class="well">
+    <p>*Please let us know why you're cancelling:
+      We're a small business and it REALLY helps us to get any feedback which we can use to make the service better for all of our clients. If you can spare a minute or two to write it, great. If not, that's fine—the computer will let you go if you write more than 10 letters in the box.</p>
+    <p>
+
+    <form role="form">
+      <div class="form-group">
+        <textarea  class="col-md-12" ng-model="closingReason" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Please enter your password:</label>
+        <input type="password" name="password" ng-model="password"  class="form-control">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary  btn-sm " ng-click="closeAccount" >YES, please close my account and delete my data</button>
+      </div>
+    </form>
+    <p>
+      Have you considered downgrading your account, instead?
+    </p>
+
+
+  </div>
+</div>

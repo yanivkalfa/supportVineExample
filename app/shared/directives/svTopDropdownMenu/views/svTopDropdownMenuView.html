@@ -1,0 +1,27 @@
+<a data-toggle="dropdown" class="dropdown-toggle">
+  <img class="male" src="http://s.gravatar.com/avatar/{{user.emailAddress|md5}}?s=200" alt="">
+          <span class="user-info">
+            <small>Welcome,</small><p class="user-name">{{user|fullName}}</p>
+          </span>
+  <i class="ace-icon fa fa-caret-down"></i>
+</a>
+
+<ul style="margin-top: 8px;"
+    class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+  <li>
+    <a class="billBtn" ui-sref="landing.account.billing">
+      <i class="ace-icon fa fa-cog"></i>Billing &amp; Account
+    </a>
+  </li>
+  <li>
+    <a class="teamBtn" ui-sref="landing.team.members">
+      <i class="ace-icon fa fa-user"></i>Team Settings
+    </a>
+  </li>
+  <li class="divider"></li>
+  <li>
+    <a href ng-click="logout()">
+      <i class="ace-icon fa fa-off"></i>Logout
+    </a>
+  </li>
+</ul>

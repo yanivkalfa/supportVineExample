@@ -1,0 +1,10 @@
+<li ng-class="{'active' : !caseTabs.hasActive()}">
+  <a ui-sref="landing.cases.list">My Cases</a>
+</li>
+
+<li ng-repeat="caseTab in caseTabs.collection track by caseTab.key"
+  ng-class="{'active' : caseTab.active}"
+  ui-sref="landing.cases.detail({key:caseTab.key})">
+  <a class="case-tab-title">#{{caseTab.number}} {{caseTab.title || 'N/A'}}</a>
+  <span class="close-case-tab" ng-click="caseTabs.remove(caseTab)"> x </span>
+</li>

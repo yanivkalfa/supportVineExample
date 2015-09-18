@@ -1,0 +1,10 @@
+<a data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-primary btn-fix col-md-12" ng-transclude></a>
+<ul class="dropdown-menu">
+  <li ng-if="nullValue">Case Status</li>
+
+  <li ng-repeat="status in statuses" style="text-align: left;">
+    <a  ng-click="setStatus(case, status.value)">
+      <span class="user-name">{{status.label}}</span>
+    </a>
+  </li>
+</ul>

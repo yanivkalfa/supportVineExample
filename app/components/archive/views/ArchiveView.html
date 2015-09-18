@@ -1,0 +1,19 @@
+<div style="height:800px" class="col-md-12  bottom-left bottom-right">
+  <div class="widget-box transparent" id="recent-box">
+    <div class="widget-header">
+
+      <ul class="nav nav-tabs" id="recent-tab">
+        <li ng-class="{'active' : getActiveTabName() === 'archiveRecent'}">
+          <a ui-sref="landing.archive.recent" >Your Recent Messages</a>
+        </li>
+
+        <li ng-class="{'active' : getActiveTabName() === 'archiveReplies'}">
+          <a ui-sref="landing.archive.replies" ng-click="navToArchiveTab('replies')">Recent Replies</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <div  class="widget-body" ui-view ></div>
+  </div>
+</div>

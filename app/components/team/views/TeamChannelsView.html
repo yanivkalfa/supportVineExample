@@ -1,0 +1,148 @@
+<div class="col-md-12">
+  <span class="bigger-150">You have {{mychannels.length}} channels </span>
+  <button class="btn btn-primary btn-sm pull-right" style="float:right;" ng-click="openNewMember()" >Add new channel</button>
+  <hr>
+</div>
+
+<div class="col-md-12">
+
+  <div class="tabbable tabs-left" >
+    <ul class="col-md-2 nav nav-tabs" style="padding-right: 0px !important;">
+      <li  class="active" ng-show="isNewChannel" >
+        <a>
+          <span class="user-name">{{ (newChannel.name) ? newChannel.name : 'No Name'}}</span>
+        </a>
+      </li>
+      <li  ng-repeat='(index, channel) in mychannels' ng-class='{active: channel.isSelected}'>
+        <a ng-click="tabSelected(channel)">
+          <span class="user-name">{{channel.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-md-9 tab-content">
+    <div id="channelnew" class="tab-pane active" ng-show="isNewChannel" >
+      <div class="scroll">
+        <p class="bigger-160">Set up a new channel</p>
+        <p>For <span class="bolder">each of your products or services</span> that you want to support with Support Vine, you need to configure a <span class="bolder">channel</span>. If you have more than one channel, you'll be able to view all support requests and cases together or filter by channel. Each of your team members can be limited to be able to view only certain channels.</p>
+        <p>Each channel needs an email address exclusive to it, for example <span class="bolder">support@yourproduct.com</span>. This email address must be accessible to Support Vine via an IMAP server (all major email providers, like Gmail, support this).</p>
+        <p>Support Vine will <span class="bolder">read all email coming in this email address</span> and will <span class="bolder">mark this email as read</span>. You can still access the email account wih other email clients - Support Vine never deletes or alters emails in any way.</p>
+        <p>Once you've created the channel, we'll tell you how to install the Support Vine feedback box (like the "Feedback &amp; Support" tab on the right) in your application or web site.</p>
+        <p class="bigger-140">Just enter the email address and password!</p>
+        <p>We'll try to figure out the email configuration details, so you don't have to.</p>
+
+        <div class="form-group row">
+          <label class="col-sm-3 control-label no-padding-right" for="email-form"> Email Address </label>
+          <div class="col-sm-9">
+            <input type="text" id="email-form" placeholder="E-Mail..."  ng-model="channelTest.username" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 control-label no-padding-right" for="pass-form"> Password </label>
+          <div class="col-sm-9">
+            <input type="password" id="pass-form" placeholder="Password..." class="form-control" ng-model="channelTest.password">
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-xs disabled" ng-click="testConnection" >Test connection</button>
+        <p></p>
+
+        <div class="form-group row">
+          <label class="col-sm-3 control-label no-padding-right" for="chname-form"> Channel Name </label>
+          <div class="col-sm-9">
+            <input type="text" id="chname-form" placeholder="Channel name..." class="form-control" ng-model="newChannel.name" >
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-sm" ng-click="saveChannel(newChannel)" >Create new channel &amp; make active!</button>
+
+      </div>
+    </div>
+
+    <div ng-repeat='channel in mychannels' class="tab-pane "  ng-class='{active: channel.isSelected}'>
+      <div class="scroll">
+        <p class="bigger-160">Channel '{{channel.name}}'</p>
+        <div class="well">
+          <div  collapse="channel.displayEditChannel">
+            <p>{{ channel.username}} ({{channel.status | formatActive }}) <!--online-->
+              <span class="pull-right">
+                <button class="btn btn-primary  btn-sm pull-right"
+                        ng-click='editChannel(channel)' >Edit</button></span>
+            </p>
+          </div>
+          <br>
+          <div  collapse="!channel.displayEditChannel">
+
+            <form role="form">
+
+              <div class="form-group row">
+                <label class="col-sm-3 control-label no-padding-right" for="email-form"> Email Address </label>
+                <div class="col-sm-9">
+                  <input type="text" id="email-form" placeholder="E-Mail..."  ng-model="channel.username" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 control-label no-padding-right" for="pass-form"> Password </label>
+                <div class="col-sm-9">
+                  <input type="password" id="pass-form" placeholder="Password..." class="form-control" ng-model="channel.password">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 control-label no-padding-right" for="chname-form"> Channel Name </label>
+                <div class="col-sm-9">
+                  <input type="text" id="chname-form" placeholder="Channel name..." class="form-control" ng-model="channel.name" >
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="cancel" class="btn btn-primary  btn-sm " ng-click="cancelEditChannel(channel)" >Cancel</button> <button type="submit" class="btn btn-primary  btn-sm " ng-click="saveChannel(channel)" >Save</button>
+              </div>
+            </form>
+
+          </div>
+
+        </div>
+        <p class="bigger-160">Team Members</p>
+        <div class="well">
+          <span class="btn btn-white btn-primary" style=" padding-right:2px;margin-right:10px; margin-bottom: 10px;"
+                ng-repeat="teamMember in channel.allowed.collection"
+                ng-mouseenter="showRemoveMember=!showRemoveMember"
+                ng-mouseleave="showRemoveMember=!showRemoveMember"
+                ng-init="showRemoveMember=false">
+            <img style="height: 30px;" class="img-rounded " src="http://s.gravatar.com/avatar/{{teamMemberHash[teamMember.key].emailAddress|md5}}?s=100" alt="">
+            <span class="user-name">{{teamMemberHash[teamMember.key]|firstNameLastInit}}</span>
+            <span class="team-member-delete" ng-click="removeMember(channel, teamMember)" style="width:20px;display:inline-block " >
+              <i ng-show="showRemoveMember" class="red ace-icon fa fa-times bigger-130" ></i>
+            </span>
+          </span>
+          <!-- Team Member Add button-->
+          <div class="btn-group "  ng-show="TCH.available.collection.length"  >
+            <button data-toggle="dropdown"  class="btn btn-primary  btn-sm dropdown-toggle" >Add Member <span class="ace-icon fa fa-caret-down icon-on-right"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="member in TCH.available.collection | orderBy:'order'" ><a href ng-click="addMember(channel, member)">{{teamMemberHash[member.key]|firstNameLastInit}}</a></li>
+            </ul>
+          </div>
+
+        </div>
+        <p class="bigger-160">Feedback Snippet</p>
+        <div class="well">
+          blah
+        </div>
+        <p class="bigger-160">Channel status: {{channel.status | formatActive }}</p>
+        <!--
+        <p class="bigger-160">Delete this channel</p>
+        <p >Deleting a channel will also remove all associated messages and replies. There is no undo.</p>
+        -->
+        <div>
+          <button class="btn btn-primary  btn-sm "
+                  ng-click='toggleactivechannel(channel)' >{{ channel.status === 'ACTIVE' ? 'Deactivate' : 'Activate' }}</button>&nbsp;
+          <!--<button class="btn btn-primary  btn-sm " ng-click='deleteChannel(channel)'>Delete channel '{{channel.name}}' and all associated messages</button>-->
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

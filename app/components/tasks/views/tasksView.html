@@ -1,0 +1,54 @@
+<div class="col-md-12  bottom">
+  <p></p>
+  <p class="bigger-160">Unhandled Emails Assigned to You</p>
+
+  <span class="glow block page4 wellInbox" ng-if="!(assignedMessages | fromChannel:global.fromChannel.key:'fromChannel').length && assignedMessagesDoneLoading" >Hooray!  No unhandled email right now</span>
+  <div class="glow block page4 wellInbox" ng-repeat="message in assignedMessages | fromChannel:global.fromChannel.key:'fromChannel'" >
+    <div class="msg" ui-sref="landing.inbox.detail({key:message.key})" ui-sref-opts="{reload: true}">
+      <img class="female" src="http://s.gravatar.com/avatar/{{message.from.emailAddress|md5}}?s=100" alt=">bob@gmail.com's Avatar"/>
+      <img class="male small-img"
+           tooltip="{{teamMemberHash[message.assignedTo.key] | fullName}}"
+           tooltip-placement="left"
+           src="http://s.gravatar.com/avatar/{{message.assignedTo.emailAddress|md5}}?s=100" alt=">bob@gmail.com's Avatar"/>
+      <div class="msg-txt">
+        <p class="bolder bigger-140">{{message.from.emailAddress}}</p>
+        <p class="bolder bigger-140">{{message.subject}}</p>
+        <p> {{message.body | cropBody}}</p>
+        <p class="text-muted"> {{message.fromChannel.name}}, {{message.receivedDate |  friendlyTimestamp}} </p>
+      </div>
+    </div>
+  </div>
+
+  <p></p>
+  <p class="bigger-160">Your Todos List</p>
+
+  <div class="well">
+    <div class="alert alert-success undo-task" ng-repeat="task in undoTasks ">
+      <strong>Well done!</strong> You completed '{{task.name}}'. <a ng-click="undoTask(task)">Undo</a>
+    </div>
+    <div class="dd dd-draghandle" style="max-width:100%">{{}}
+      <ol class="dd-list">
+        <li class="dd-item"  ng-repeat="taskCase in taskCases | fromChannel:global.fromChannel.key:'parentCase.channelKey'" ng-if="taskCase.tasks.length > 0">
+          <div class="dd2-content" >
+            <a ui-sref="landing.cases.detail({key:taskCase.parentCase.key})" style="cursor: pointer;">
+              <span class="stronger">#{{taskCase.parentCase.caseNumber}}</span>
+              <span style="font-weight: 500; cursor: pointer;"> {{taskCase.parentCase.title}} </span>
+              <span style="cursor: pointer;"> ({{taskCase.parentCase.channelKey | chanName}}) </span>
+            </a>
+          </div>
+          <ol class="dd-list">
+            <li class="dd-item dd2-item">
+              <ul id="tasks" class="item-list ui-sortable">
+                <sv-task
+                  ng-repeat="task in taskCase.tasks"
+                  task="task">
+                </sv-task>
+              </ul>
+            </li>
+          </ol>
+        </li>
+        <li class="dd-item" ng-show="!(taskCases | fromChannel:global.fromChannel.key:'parentCase.channel').length && taskCasesDoneLoading">Woo hoo!  You don't have anything to do here</li>
+      </ol>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<a data-toggle="dropdown" class="dropdown-toggle" ng-click="markNotificationRead()">
+  <i class="ace-icon fa fa-bell"></i>
+  <span ng-if="(notifications | filter : {seen: false}).length" class="badge badge-grey">{{(notifications | filter : {seen: false}).length}}</span>
+</a>
+
+<ul style="" class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+  <li class="dropdown-header">
+    <span class="pull-left">
+      <i class="ace-icon fa fa-exclamation-triangle"></i>
+      <span class="badge notificationCount">{{notifications.length}}</span> Notifications
+    </span>
+    <span class="pull-right"
+          ng-show="notifications.length"
+          ng-click="clearNotifications()"> Clear All </span>
+    <div class="clearfix"></div>
+  </li>
+
+  <li style="position: relative;" class="dropdown-content ace-scroll">
+    <div style="" class="scroll-content">
+      <ul class="dropdown-menu dropdown-navbar">
+        <li ng-if="!unseenNotifications.length && !notifications.length">
+            <span>
+              <div class="clearfix">
+                <span class="pull-left">No alerts right now...Ask Picard to move to the neutral zone!</span>
+              </div>
+            </span>
+        </li>
+
+        <li ng-repeat="notification in notifications | orderBy: 'createDate' : true"
+            ng-class="{'unseen' : !notification.seen}"
+            ng-include="'shared/directives/svNotifications/views/partials/sv-notification-'+ notification.type.toLowerCase() +'.html'">
+        </li>
+
+      </ul>
+    </div>
+  </li>
+</ul>

@@ -1,0 +1,73 @@
+<div class="col-md-12">
+  <p class="bigger-160">Upgrade your plan!</p>
+  <p>
+    You’re currently subscribed to the <strong>???</strong>. You can upgrade any time.
+  </p>
+  <p>
+    This charge will cover service until <strong>Wednesday, July 9, 2014</strong>.
+  </p>
+</div>
+<div class="col-md-12">
+  <ul id="choose_plans">
+    <li id="enterprise_plan" class="" ng-repeat="billingPlan in billingPlans">
+      <h4 >{{billingPlan.name}}</h4>
+      <p class="features">
+        {{billingPlan.desc}}
+      </p><p class="price">
+      <strong>{{billingPlan.price}}/mo</strong>
+    </p>
+      <button  class="btn btn-sm upgradeButton"  ng-click="displayUpgradeConfirmSection()">upgrade</button>
+    </li>
+  </ul>
+</div>
+
+<div class="col-md-12"  collapse="!displayUpgradeConfirm">
+  <div class="well">
+    <p class="bigger-160">Upgrade and gain 59 user accounts!</p>
+    <p class="bigger-130">Your current plan</p>
+    <ul id="choose_plans">
+      <li id="enterprise_plan" class="">
+        <h4 >Enterprise</h4>
+        <p class="features">
+          up to <strong>60</strong> active users,
+          <strong>unlimited</strong> projects,
+          <strong>unlimited</strong> clients and invoicing with
+          invoice customization, <strong>priority support</strong>
+        </p><p class="price">
+        <strong>$249/mo</strong>
+      </p>
+
+      </li>
+    </ul>
+    <p class="bigger-130">Your Plan After Upgrade</p>
+    <ul id="choose_plans">
+      <li id="enterprise_plan" class="">
+        <h4 >Enterprise</h4>
+        <p class="features">
+          up to <strong>60</strong> active users,
+          <strong>unlimited</strong> projects,
+          <strong>unlimited</strong> clients and invoicing with
+          invoice customization, <strong>priority support</strong>
+        </p><p class="price">
+        <strong>$249/mo</strong>
+      </p>
+
+      </li>
+    </ul>
+    <p class="bigger-130">What Will Happen</p>
+    <p>Please double-check the following details to upgrade your account.</p>
+    <div class="alert alert-danger">Choosing to upgrade will end your free trial and you'll be billed immediately for your first month of service.</div>
+    <ol >
+      <li>
+        You’ll be able to use your 59 additional user accounts right away.
+      </li>
+      <li>
+        Your card (ending 8340) will be charged $249 immediately to pay for
+        your first month of the Enterprise plan.
+      </li>
+    </ol>
+    <p>If you understand and agree, click the button below to upgrade:</p>
+    <button type="submit" class="btn btn-primary  btn-sm " ng-click="displayUpgradeConfirm=false" >Cancel</button>
+    <button type="submit" class="btn btn-primary  btn-sm " ng-click="confirmUpgrade" >Yes, Change my plan</button>
+  </div>
+</div>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>Support Vine</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="/bower_components/Hover/css/hover.css" />
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="/bower_components/chosen/chosen.css" />
+  <link rel="stylesheet" href="/bower_components/angular-loading-bar/build/loading-bar.css" />
+  <link rel="stylesheet" href="/bower_components/AngularJS-Toaster/toaster.css" />
+  <link rel="stylesheet" href="/bower_components/animate.css/animate.css" />
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="/styles/ace/ace.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/animations.css">
+  <!-- endbuild -->
+</head>
+<body class="no-skin" ng-app="supportVine" ng-controller="supportVineAppController">
+  <!--[if lt IE 7]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div ui-view class="container-full"></div>
+
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- build:js(.) scripts/oldieshim.js -->
+  <!--[if lt IE 9]>
+  <script src="/bower_components/es5-shim/es5-shim.js"></script>
+  <script src="/bower_components/json3/lib/json3.js"></script>
+  <![endif]-->
+  <!-- endbuild -->
+
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-resource/angular-resource.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="/bower_components/angular-animate/angular-animate.js"></script>
+  <script src="/bower_components/angular-touch/angular-touch.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/ui-router/release/angular-ui-router.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="/bower_components/chosen/chosen.jquery.js"></script>
+  <script src="/bower_components/angular-chosen-localytics/chosen.js"></script>
+  <script src="/bower_components/underscore/underscore.js"></script>
+  <script src="/bower_components/ng-file-upload/ng-file-upload.js"></script>
+  <script src="/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+  <script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
+  <script src="/bower_components/autofill-event/src/autofill-event.js"></script>
+  <script src="/bower_components/AngularJS-Toaster/toaster.js"></script>
+  <script src="/bower_components/sockjs-client/dist/sockjs.js"></script>
+  <script src="/bower_components/stomp-websocket/lib/stomp.js"></script>
+  <script src="/bower_components/cryptojslib/rollups/md5.js"></script>
+  <script src="/bower_components/cryptojslib/components/enc-base64-min.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/satellizer/satellizer.js"></script>
+  <script src="/bower_components/lodash/lodash.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="/ace_components/ace.min.js"></script>
+  <script src="/ace_components/ace-elements.min.js"></script>
+  <script src="/configs/app.js"></script>
+
+  <!--  components  -->
+  <script src="/components/account/controllers/AccountCtrl.js"></script>
+  <script src="/components/account/controllers/AccountBillingCtrl.js"></script>
+  <script src="/components/account/controllers/AccountCloseCtrl.js"></script>
+  <script src="/components/account/controllers/AccountPlansCtrl.js"></script>
+  <script src="/components/account/services/BillingServices.js"></script>
+
+  <script src="/components/archive/controllers/ArchiveCtrl.js"></script>
+  <script src="/components/archive/controllers/ArchiveRecentCtrl.js"></script>
+  <script src="/components/archive/controllers/ArchiveRepliesCtrl.js"></script>
+
+  <script src="/components/cases/controllers/CaseDetailCtrl.js"></script>
+  <script src="/components/cases/controllers/CaseDetailTasksCtrl.js"></script>
+  <script src="/components/cases/controllers/CaseListCtrl.js"></script>
+  <script src="/components/cases/controllers/CaseModalCtrl.js"></script>
+  <script src="/components/cases/controllers/CasesCtrl.js"></script>
+  <script src="/components/cases/directives/caseActions/caseActionsDirective.js"></script>
+  <script src="/components/cases/directives/caseStatus/caseStatusDirective.js"></script>
+  <script src="/components/cases/directives/caseTabs/services/CaseTabsService.js"></script>
+  <script src="/components/cases/directives/caseTabs/caseTabsDirective.js"></script>
+  <script src="/components/cases/directives/pinnedCases/services/PinnedCasesChannelService.js"></script>
+  <script src="/components/cases/directives/pinnedCases/pinnedCasesDirective.js"></script>
+  <script src="/components/cases/services/CaseServices.js"></script>
+  <script src="/components/cases/services/CaseHelperService.js"></script>
+  <script src="/components/cases/filters/caseTypesFilter.js"></script>
+  <script src="/components/cases/filters/membersFilter.js"></script>
+  <script src="/components/cases/filters/channelFilter.js"></script>
+  <script src="/components/cases/filters/textFilter.js"></script>
+  <script src="/components/cases/filters/sortByNumberFix.js"></script>
+
+
+  <script src="/components/errorPage/controllers/ErrorPageCtrl.js"></script>
+
+  <script src="/components/inbox/controllers/InboxCtrl.js"></script>
+  <script src="/components/inbox/controllers/InboxDetailCtrl.js"></script>
+  <script src="/components/inbox/filters/cropBodyFilter.js"></script>
+  <script src="/components/inbox/filters/friendlyTimestampFilter.js"></script>
+  <script src="/components/inbox/filters/fullNameForDropdownFilter.js"></script>
+  <script src="/components/inbox/filters/getProcessMessageActionTitleFilter.js"></script>
+  <script src="/components/inbox/services/MessageServices.js"></script>
+
+
+  <script src="/components/landing/controllers/LandingCtrl.js"></script>
+
+
+  <script src="/components/login/controllers/SignupCtrl.js"></script>
+  <script src="/components/login/controllers/LoginCtrl.js"></script>
+  <script src="/components/login/controllers/ForgotPasswordCtrl.js"></script>
+  <script src="/components/login/controllers/ResetPasswordCtrl.js"></script>
+  <script src="/components/login/services/RegistrationService.js"></script>
+
+
+  <script src="/components/tasks/controllers/TasksCtrl.js"></script>
+  <script src="/components/tasks/controllers/TaskEditCtrl.js"></script>
+  <script src="/components/tasks/directives/tasksDirective.js"></script>
+  <script src="/components/tasks/services/TasksHelperService.js"></script>
+  <script src="/components/tasks/services/TasksServices.js"></script>
+  <script src="/components/tasks/filters/fromChannelFilter.js"></script>
+
+
+  <script src="/components/team/controllers/TeamCtrl.js"></script>
+  <script src="/components/team/controllers/TeamChannels.js"></script>
+  <script src="/components/team/controllers/TeamMembersCtrl.js"></script>
+  <script src="/components/team/services/TeamChannelsServices.js"></script>
+  <script src="/components/team/services/TeamMemberServices.js"></script>
+
+  <!--  states  -->
+  <script src="/configs/states/account/accountStates.js"></script>
+  <script src="/configs/states/archive/archiveStates.js"></script>
+  <script src="/configs/states/cases/casesStates.js"></script>
+  <script src="/configs/states/errorPage/errorPageStates.js"></script>
+  <script src="/configs/states/inbox/inboxStates.js"></script>
+  <script src="/configs/states/landing/landingStates.js"></script>
+  <script src="/configs/states/login/loginStates.js"></script>
+  <script src="/configs/states/tasks/tasksStates.js"></script>
+  <script src="/configs/states/team/teamStates.js"></script>
+
+
+  <!--  constants  -->
+  <script src="/shared/constants/svMainNavTabs/tabList.js"></script>
+  <script src="/shared/constants/errorList/errorList.js"></script>
+  <script src="/shared/constants/enum/enum.js"></script>
+  <script src="/shared/constants/env/env.js"></script>
+  <script src="/shared/constants/tasks/tasksEvents.js"></script>
+
+  <!--  directives  -->
+  <script src="/shared/directives/rcSubmit/rcSubmitDirective.js"></script>
+  <script src="/shared/directives/svMainNavTabs/svMainNavTabsDirective.js"></script>
+  <script src="/shared/directives/svMainNavTabs/services/SvMainNavTabsService.js"></script>
+  <script src="/shared/directives/svNotifications/services/NotificationsServices.js"></script>
+  <script src="/shared/directives/svNotifications/svNotificationDestinationDirective.js"></script>
+  <script src="/shared/directives/svNotifications/svNotificationsDirective.js"></script>
+  <script src="/shared/directives/svSelectChannelFilter/svSelectChannelFilterDirective.js"></script>
+  <script src="/shared/directives/svSelectChannelFilter/services/SvSelectChannelFilterService.js"></script>
+  <script src="/shared/directives/svStickyPosition/svStickyPositionDirective.js"></script>
+  <script src="/shared/directives/svTeamMemberSelection/svTeamMemberSelection.js"></script>
+  <script src="/shared/directives/svTopDropdownMenu/svTopDropdownMenuDirective.js"></script>
+  <script src="/shared/directives/validator/validatorDirective.js"></script>
+  <script src="/shared/directives/validator/services/ValidatorsService.js"></script>
+
+  <!--  filters  -->
+  <script src="/shared/filters/capitalizeFirstFilter.js"></script>
+  <script src="/shared/filters/caseTypeNameFilter.js"></script>
+  <script src="/shared/filters/chanNameFilter.js"></script>
+  <script src="/shared/filters/firstNameLastInitFilter.js"></script>
+  <script src="/shared/filters/formatActiveFilter.js"></script>
+  <script src="/shared/filters/fullNameFilter.js"></script>
+  <script src="/shared/filters/isEmptyFilter.js"></script>
+  <script src="/shared/filters/md5Filter.js"></script>
+  <script src="/shared/filters/momentFilter.js"></script>
+
+  <!--  services  -->
+  <script src="/shared/services/auth/AuthInterceptorService.js"></script>
+  <script src="/shared/services/auth/UserService.js"></script>
+  <script src="/shared/services/collection/Collection.js"></script>
+  <script src="/shared/services/collection/Collection2.js"></script>
+  <script src="/shared/services/ngStomp/NgStompService.js"></script>
+  <script src="/shared/services/notificationsChannel/NotificationsChannelService.js"></script>
+  <script src="/shared/services/session/SessionsService.js"></script>
+  <script src="/shared/services/svLiveApi/SvLiveApiService.js"></script>
+  <script src="/shared/services/svUtils/SvUtilsService.js"></script>
+  <script src="/shared/services/teamChannelHelper/TeamChannelHelperService.js"></script>
+
+
+  <!-- endbuild -->
+
+
+  <base href="/">
+</body>
+</html>

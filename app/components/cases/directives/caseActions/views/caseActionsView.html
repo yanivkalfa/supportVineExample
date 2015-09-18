@@ -1,0 +1,12 @@
+<div class="row" ng-if="updateCase()">
+  <div class="col-md-3 pr-1p pl-1p" ng-if="case.caseStatus" case-status="case.caseStatus">
+    {{case.caseStatus|capitalizeFirst}}
+    <span class="fa fa-caret-down icon-on-right"></span>
+  </div>
+  <div class="col-md-3 pr-1p pl-1p" ng-if="case.caseStatus">
+    <button class="btn btn-sm btn-primary btn-fix col-md-12" ng-click="isCasePinned(case) ? pinCase(false, case) : pinCase(true, case) ">{{ isCasePinned(case) ? 'Unpin' : 'Pin'}}</button>
+  </div>
+  <div class="col-md-3 pr-1p pl-1p" ng-if="case.caseStatus">
+    <button class="btn btn-sm btn-primary btn-fix col-md-12" ng-click="openCreateCaseModal(case)">Edit</button>
+  </div>
+</div>

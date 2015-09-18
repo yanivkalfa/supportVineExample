@@ -1,0 +1,153 @@
+<div class="col-md-12">
+  <span class="bigger-150">You have {{teamMembers.length}} active team members </span>
+  <button class="btn btn-primary btn-sm pull-right" style="float:right;" ng-click="openNewMember()">Add new team member
+  </button>
+  <hr>
+</div>
+
+<div class="col-md-12">
+
+  <div class="tabbable tabs-left">
+    <ul class="col-md-2 nav nav-tabs ul-member-tab" style="padding-right: 0px !important;">
+      <li class="active" ng-show="isNewMember">
+        <a> <span class="user-name">{{ (newMember.firstName || newMember.lastName) ? (newMember.firstName + ' ' + newMember.lastName) : 'No Name'}}</span> </a>
+      </li>
+
+      <li ng-repeat="member in teamMembers"
+          ng-class='{"active":(member.isSelected)}'>
+        <a ng-click="tabSelected(member)">
+          <span class="user-name">{{member|fullName}}</span>
+        </a>
+      </li>
+    </ul>
+
+
+    <div id="teamTabContent" class="col-md-9 tab-content">
+
+      <div class="tab-pane active"
+           ng-show="isNewMember">
+        <div>
+
+          <img class="img-rounded" src="http://s.gravatar.com/avatar/{{newMember.emailAddress|md5}}?s=100" alt="" style="width: 60px;">
+          <span class="user-name bolder bigger-160">{{newMember|fullName}}</span>
+          <span class="bolder bigger-160"></span>
+
+
+          <form class="form-horizontal team-form">
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="firstname-form"> First name </label>
+
+              <div class="col-sm-7">
+                <input type="text" id="firstname-form" name="firstname" class="col-sm-11" ng-model="newMember.firstName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="lastname-form"> Last name </label>
+
+              <div class="col-sm-7">
+                <input type="text" id="lastname-form" name="lastname" class="col-sm-11" ng-model="newMember.lastName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="email-form"> Email </label>
+
+              <div class="col-sm-7">
+                <input type="text" id="email-form" name="email" class="col-sm-11" ng-model="newMember.emailAddress">
+              </div>
+            </div>
+          </form>
+
+          <p></p>
+          <button class="btn btn-primary btn-sm" ng-click="saveMember(newMember)">create & send invite</button>
+
+        </div>
+      </div>
+
+      <div ng-repeat='member in teamMembers' class="tab-pane "
+           ng-class="{'active':(member.isSelected)}">
+        <div>
+          <img class="img-rounded" src="http://s.gravatar.com/avatar/{{member.emailAddress|md5}}?s=100" alt=""
+               style="width: 60px;">
+          <span class="-name bolder bigger-160">{{member|fullName}}</span>
+            <span class="bolder bigger-160"
+                  ng-show="isCurrent(member)"> (that's you!)</span>
+
+          <form class="form-horizontal team-form">
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="firstname-form"> First name </label>
+
+              <div class="col-sm-10">
+                <input type="text" id="firstname-form" name="firstname" class="col-sm-11" ng-model="member.firstName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="lastname-form"> Last name </label>
+
+              <div class="col-sm-10">
+                <input type="text" id="lastname-form" name="lastname" class="col-sm-11" ng-model="member.lastName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right" for="email-form"> Email </label>
+
+              <div class="col-sm-10">
+                <input type="text" id="email-form" name="email" class="col-sm-11" ng-model="member.emailAddress">
+              </div>
+            </div>
+          </form>
+
+          <p></p>
+          <button class="btn btn-primary btn-sm" ng-click="saveMember(member)">Save Changes</button>
+          <button class="btn btn-primary btn-sm"
+                  ng-if="user.key !== member.key"
+                  ng-click="toggleMemberStatus(member)">{{member.status.toUpperCase() === "DISABLED" ? "Activate" : "Disable"}} Member</button>
+          <p></p>
+
+          <div class="well">
+            <p>User <span class="fname">{{member.firstName}}</span> has access to:</p>
+
+            <div>
+                <span class="btn btn-white btn-primary" style=" padding-right:2px;margin-right:10px"
+                      ng-repeat="channel in member.allowed.collection"
+                      ng-mouseenter="showChannelDelete=!showChannelDelete"
+                      ng-mouseleave="showChannelDelete=!showChannelDelete"
+                      ng-init="showChannelDelete=false">
+                  <span class="user-name">{{channel.name}}</span>
+                  <!-- Team Member Remove button--> <!-- unneeded use of filter  | channelName:mychannels }-->
+                  <span class="team-member-delete" ng-click="removeChannel(member,channel)"
+                        style="width:20px;display:inline-block ">
+                    <i ng-show="showChannelDelete" class="red ace-icon fa fa-times bigger-130"></i>
+                  </span>
+                </span>
+              <!-- Team Member Add button-->
+              <div class="btn-group " ng-show="TCH.available.collection.length">
+                <button data-toggle="dropdown" class="btn btn-primary  btn-sm dropdown-toggle">Add Channel <span
+                  class="ace-icon fa fa-caret-down icon-on-right"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="channel in TCH.available.collection | orderBy:'order'"><a href ng-click="addChannel(member,channel)">{{channel.name}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="well" ng-if="member.status === 'INVITED'">
+            <p>Invitation history:</p>
+            <div>
+              <ul class="user-invitation-sent">
+                <li ng-repeat="invitation in member.invitations track by $index">
+                  {{invitation | date:'EEEE, MMMM d, y h:mm:ss a'}}
+                </li>
+              </ul>
+              <div class="btn-group">
+                <button ng-click="sendInvitation(member)" class="btn btn-primary  btn-sm dropdown-toggle">Invite Again</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

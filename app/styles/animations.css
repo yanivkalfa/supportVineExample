@@ -1,0 +1,15 @@
+.undo-task.ng-enter {
+  -webkit-animation: fadeIn 1s;
+}
+
+.undo-task.ng-leave {
+  -webkit-animation: fadeOut 1s;
+}
+
+.pinned-cases.ng-enter {
+  -webkit-animation: fadeInDown 1s;
+}
+
+.pinned-cases.ng-leave{
+  -webkit-animation: fadeOutUp 1s;
+}

@@ -1,0 +1,327 @@
+<div ng-if="caze.caseNumber">
+  <div class="widget-box">
+    <div class="widget-header">
+      <h3 class="smaller  widget-title">#{{caze.caseNumber}} {{caze.channel.name}}</h3>
+      <span style="margin-left: 10px;"></span>
+      <span class="label"
+            ng-class="{'label-success':(caseType| caseTypeName) =='Testimonial','label-warning':(caseType| caseTypeName) =='Enhancement','label-danger':(caseType| caseTypeName) =='Bug','label-info':(caseType| caseTypeName) =='Question' }" style="margin-left: 1px;"
+            ng-repeat="caseType in caze.caseTypesKeys "> {{caseType | caseTypeName}}
+      </span>
+      <span class="label {{'label-case-'+caze.caseStatus.toLowerCase()}}" > {{caze.caseStatus | capitalizeFirst}}</span>
+    </div>
+    <div class="widget-body">
+      <div class="widget-main padding-6">
+        <h1 style="display: inline-block; vertical-align: middle;">{{caze.title}}</h1>
+        <div style="display: inline-block;" class="pull-right">
+          <div style="display: inline-block;">
+            <div class="customers-badge">
+              <span class="bigger-200">{{caze.affectedCustomers.length}}</span>
+            </div>
+            <span> Customers</span>
+          </div>
+          <!-- <div style="display: inline-block;"><div class="value-badge"><i class="ace-icon fa fa-dollar bigger-200"></i></div><span>{{caze.totalValue}}</span></div> -->
+        </div>
+
+        <div>
+          <span style="margin-bottom: 2px; border: none;  font-size:14px"
+                ng-repeat="teamMember in caze.assignedUsers"
+                ng-mouseenter="showTeamMemberDelete=!showTeamMemberDelete"
+                ng-mouseleave="showTeamMemberDelete=!showTeamMemberDelete"
+                ng-init="showTeamMemberDelete=false" >
+            <span style="opacity:0.65;"
+                  tooltip="{{teamMemberHash[teamMember.key] | fullName}}"
+                  tooltip-placement="left">
+              <img class="img-rounded " src="http://s.gravatar.com/avatar/{{teamMemberHash[teamMember.key].emailAddress|md5}}?s=30" alt="">
+              <span class="user-name">{{teamMemberHash[teamMember.key]|firstNameLastInit}}</span>
+              <span class="team-member-delete"
+                    ng-click="removeTeamMember(teamMember)" style="width:20px;display:inline-block " >
+                <i ng-show="showTeamMemberDelete" class="ace-icon fa fa-times red bigger-130" ></i>
+              </span>
+            </span>
+          </span>
+
+          <!-- Team Member Add button-->
+          <div class="btn-group "
+               ng-show="teamMembers.length>caze.assignedUsers.length">
+            <sv-team-member-selection
+              button-class="btn btn-sm btn-primary"
+              select="addTeamMember($selectedMember)">
+              Add Member
+              <span class="fa fa-caret-down icon-on-right"></span>
+            </sv-team-member-selection>
+          </div>
+
+          <div class="btn btn-sm btn-primary btn-fix" ng-click="poke()">Poke Members</div>
+          <!-- <button class="btn btn-sm btn-primary" ng-click="poke()">Poke!</button> -->
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <p></p>
+            <p class="asd">{{caze.description}}</p>
+
+            <!--  WIDGET  -->
+            <div class="widget-box transparent" id="recent-box">
+              <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                  <span class="badge badge-success">{{allConversations.length}}</span> Conversations
+                </h4>
+
+                <div class="widget-toolbar no-border">
+                  <ul class="nav nav-tabs" id="recent-tab">
+                    <li class="active">
+                      <a data-toggle="tab" data-target="#call">All</a>
+                    </li>
+
+                    <li class="">
+                      <a data-toggle="tab" data-target="#cteam">Team</a>
+                    </li>
+
+                    <li class="">
+                      <a data-toggle="tab" data-target="#ccustomers">Customers</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="widget-body">
+                <div class="widget-main padding-4">
+                  <div class="tab-content padding-8">
+
+                    <div id="call" class="tab-pane active">
+                      <!-- #section:all -->
+
+                      <div class="dialogs"  ng-show="allConversations.length>0" >
+                        <div class="itemdiv dialogdiv" ng-class="{'highlight-msg': msgKey==conv.key}"  ng-repeat="conv in allConversations | orderBy:'createDate':true track by conv.key">
+
+                          <div class="user" ng-switch on="!!conv.whoSaidIt"  >
+                            <img ng-switch-when="true" class="" alt="" src="http://s.gravatar.com/avatar/{{teamMemberHash[conv.whoSaidIt.key].emailAddress|md5}}?s=100" />
+                            <img ng-switch-default class="" alt="" src="http://s.gravatar.com/avatar/{{mail.from.emailAddress|md5}}?s=100" />
+                          </div>
+
+                          <div class="body" ng-switch on="!!conv.whoSaidIt" >
+                            <div class="time">
+                              <i class="ace-icon fa fa-clock-o"></i>
+                              <span class="">{{conv.createDate|friendlyTimestamp}}</span>
+                            </div>
+
+                            <div class="name" >
+                              <a ng-switch-when="true"  class="user-name" href="#"  >{{teamMemberHash[conv.whoSaidIt.key]|fullName}}</a>
+                              <a  ng-switch-default  class="user-name" href="#">{{conv.from.name}}{{conv.replyFrom|fullName}}</a>
+                            </div>
+                            <div ng-switch-when="true" class="text">{{conv.replyText}}</div>
+                            <div ng-switch-default class="text">
+                              <p class="bigger-110">{{conv.subject}}</p>
+                              <p>{{conv.body | cropBody}}</p>
+                            </div>
+                            <div class="tools" style="display:block"  ng-show="conv.attachments.length">
+
+                              <button data-toggle="dropdown" class="btn btn-minier btn-info dropdown-toggle">
+                                <i class="icon-only ace-icon fa fa-paperclip"></i>
+                              </button>
+
+                              <ul class="dropdown-menu"  >
+                                <li ng-repeat="attachment in conv.attachments">
+                                  <a href="https://s3.amazonaws.com{{attachment.s3URL}}">{{attachment.filename}}</a>
+                                </li>
+                              </ul>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <!-- /section:all -->
+                    </div>
+
+                    <div id="cteam" class="tab-pane">
+                      <!-- #section:team
+                      <span  ng-show="cazeConversation.statements.length==0">No team conversations...</span> -->
+                      <div class="dialogs" ng-show="cazeConversation.statements.length>0">
+
+                        <div class="itemdiv dialogdiv" ng-repeat="conv in cazeConversation.statements track by conv.key">
+                          <div class="user">
+                            <img class="" alt="" src="http://s.gravatar.com/avatar/{{teamMemberHash[conv.whoSaidIt.key].emailAddress|md5}}?s=100" />
+                          </div>
+
+                          <div class="body">
+                            <div class="time">
+                              <i class="ace-icon fa fa-clock-o"></i>
+                              <span class="">{{conv.createDate|friendlyTimestamp}}</span>
+                            </div>
+
+                            <div class="name">
+                              <a class="user-name" href="#">{{teamMemberHash[conv.whoSaidIt.key]|fullName}}</a>
+                            </div>
+                            <div class="text">{{conv.replyText}}</div>
+
+                            <div class="tools" style="display:block"  ng-show="conv.attachments.length">
+
+                              <button data-toggle="dropdown" class="btn btn-minier btn-info dropdown-toggle">
+                                <i class="icon-only ace-icon fa fa-paperclip"></i>
+                              </button>
+
+                              <ul class="dropdown-menu"  >
+                                <li ng-repeat="attachment in conv.attachments">
+                                  <a href="https://s3.amazonaws.com{{attachment.s3URL}}">{{attachment.filename}}</a>
+                                </li>
+                              </ul>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <p></p>
+
+                      <form ng-submit="addNote()">
+                        <textarea ng-model="note.replyText" class="form-control" placeholder="Add a comment"></textarea>
+
+                        <div class="ace-file-input ace-file-multiple">
+                          <input multiple="" id="note-input-file" type="file" ng-model='stmntAttachments'>
+                        </div>
+
+                        <button type="submit" class="btn btn-xs btn-primary" style="line-height:22px;"  >Add Note</button>
+
+                      </form>
+                      <!-- /section:team  -->
+                    </div><!-- /.#member-tab -->
+
+                    <div id="ccustomers" class="tab-pane">
+                      <!-- #section:ccustomers
+                      <span  ng-show="caze.mail.length==0">No customer conversations...</span> -->
+                      <div class="dialogs" ng-show="caze.mail.length>0">
+
+                        <div class="itemdiv dialogdiv" ng-repeat="mail in caze.mail track by mail.key ">
+                          <div class="user">
+                            <img class="" alt="" src="http://s.gravatar.com/avatar/{{mail.from.emailAddress|md5}}?s=100" />
+                          </div>
+
+                          <div class="body">
+                            <div class="time">
+                              <i class="ace-icon fa fa-clock-o"></i>
+                              <span class="">{{mail.createDate|friendlyTimestamp}}</span>
+                            </div>
+
+                            <div class="name">
+                              <a class="user-name" href="#">{{mail.from.name}}{{mail.replyFrom|fullName}}</a>
+                            </div>
+                            <div class="text">
+                              <p class="bigger-110">{{mail.subject}}</p>
+                              <p>{{mail.body | cropBody}}</p>
+                            </div>
+                            <div class="tools" style="display:block"  ng-show="mail.attachments.length">
+
+                              <button data-toggle="dropdown" class="btn btn-minier btn-info dropdown-toggle">
+                                <i class="icon-only ace-icon fa fa-paperclip"></i>
+                              </button>
+
+                              <ul class="dropdown-menu"  >
+                                <li ng-repeat="attachment in mail.attachments">
+                                  <a href="https://s3.amazonaws.com{{attachment.s3URL}}">{{attachment.filename}}</a>
+                                </li>
+                              </ul>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+                      <p></p>
+
+                      <div ng-show="caze.mail.length>0">
+                        <form ng-submit="addCustomerReply()">
+                          <textarea ng-model="reply.body" class="form-control" placeholder="Enter email reply..."></textarea>
+
+                          <div class="ace-file-input ace-file-multiple">
+                            <input multiple="" id="replay-input-file" type="file" ng-model='replayStmntAttachments'>
+                          </div>
+
+                          <button type="submit" class="btn btn-xs btn-primary" style="line-height:22px;"  >Replay</button>
+                        </form>
+                      </div>
+
+                      <!-- /section:ccustomers -->
+                    </div>
+                  </div>
+                </div><!-- /.widget-main -->
+              </div><!-- /.widget-body -->
+            </div>
+            <!--  WIDGET  -->
+          </div>
+
+          <!--  TASKS  -->
+          <div class="col-md-4" ng-controller="CaseDetailTasksCtrl" >
+
+            <p class="bigger-160">Case Tasks</p>
+
+            <span class="input-icon" style="width:100%" ng-show="teamMembers.length">
+              <form name="newTask" rc-submit="addTask()">
+                <input type="text" name="name" class="form-control" style="padding-left:50px; height:45px;" placeholder="Enter new task here"
+                       ng-model="task.name" required>
+                <p ng-show="rc.newTask.needsAttention(newTask.name) && newTask.name.$error.required" class="help-block">Task name is required</p>
+              </form>
+              <sv-team-member-selection
+                class="ace-icon"
+                select="selectTeamMemberForTask($selectedMember)">
+                <img class="img-rounded" src="http://s.gravatar.com/avatar/{{teamMemberHash[task.owner.key].emailAddress|md5}}?s=30" alt=""  >
+              </sv-team-member-selection>
+            </span>
+            <span class="input-icon" style="width:100%" ng-show="!teamMembers.length">
+              There are no team members to assign it to
+            </span>
+
+            <p> <!-- Separator bewtween tasks and task creation input. --> </p>
+            <ul id="tasks" class="item-list ui-sortable">
+              <sv-task
+                ng-repeat="task in relatedTasks | orderBy:['complete', 'name'] track by task.key"
+                task="task">
+              </sv-task>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p></p>
+  </div>
+</div>
+
+
+<script>
+  $('#note-input-file, #replay-input-file').ace_file_input({
+    style:'well',
+    btn_choose:'Drop files here or click to choose',
+    btn_change:null,
+    no_icon:'ace-icon fa fa-cloud-upload',
+    droppable:true,
+    thumbnail:'small'//large | fit
+    //,icon_remove:null//set null, to hide remove/reset button
+    /**,before_change:function(files, dropped) {
+        //Check an example below
+        //or examples/file-upload.html
+        return true;
+      }*/
+    /**,before_remove : function() {
+        return true;
+      }*/
+    ,
+    preview_error : function(filename, error_code) {
+      //name of the file that failed
+      //error_code values
+      //1 = 'FILE_LOAD_FAILED',
+      //2 = 'IMAGE_LOAD_FAILED',
+      //3 = 'THUMBNAIL_FAILED'
+      //alert(error_code);
+    }
+
+  }).on('change', function(){
+    //console.log($(this).data('ace_input_files'));
+    //console.log($(this).data('ace_input_method'));
+  });
+</script>
+
+

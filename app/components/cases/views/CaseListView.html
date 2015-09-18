@@ -1,0 +1,108 @@
+<div class="col-md-3 bottom-left">
+  <p><!-- SEPARATOR --></p>
+  <div class="input-group">
+    <input class="form-control input-mask-product" placeholder="Filter by keyword..." autocomplete="off" type="text" ng-model="sortFilter.keyword">
+    <span class="input-group-addon">
+      <i class="ace-icon fa fa-search nav-search-icon"></i>
+    </span>
+  </div>
+  <p><!-- SEPARATOR --></p>
+  <p><!-- SEPARATOR --></p>
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary" ng-model="sortFilter.caseStatus" btn-radio="''">All</button>
+    <button type="button" class="btn btn-primary" ng-model="sortFilter.caseStatus" btn-radio="'OPEN'">Open</button>
+    <button type="button" class="btn btn-primary" ng-model="sortFilter.caseStatus" btn-radio="'ARCHIVED'">Archived</button>
+    <button type="button" class="btn btn-primary" ng-model="sortFilter.caseStatus" btn-radio="'WAITING'">Waiting</button>
+  </div>
+  <p><!-- SEPARATOR --></p>
+  <div>
+    <label for="form-field-sort-by" class="bigger-160">Sort By</label>
+    <select chosen style="width: 100%;" ng-model="sortFilter.sortBy" ng-options="c.key as c.value for c in sortByOptions"></select>
+  </div>
+  <p><!-- SEPARATOR --></p>
+  <p class="bigger-160">Case Types</p>
+  <div class="btn-group btn-bolder">
+    <button type="button" class="btn btn-success btn-sm " ng-click="clickCheck(sortFilter.caseTypesKeys, getCaseType('Testimonial'))" ng-model="cType.a" btn-checkbox>Testimonial</button>
+    <button type="button" class="btn btn-warning btn-sm " ng-click="clickCheck(sortFilter.caseTypesKeys, getCaseType('Enhancement'))" ng-model="cType.b" btn-checkbox>Enhancement</button>
+    <button type="button" class="btn btn-danger btn-sm " ng-click="clickCheck(sortFilter.caseTypesKeys, getCaseType('Bug'))" ng-model="cType.c" btn-checkbox>Bug</button>
+    <button type="button" class="btn btn-info btn-sm "ng-click="clickCheck(sortFilter.caseTypesKeys, getCaseType('Question'))" ng-model="cType.d" btn-checkbox>Question</button>
+  </div>
+  <p><!-- SEPARATOR --></p>
+  <p class="bigger-160">Team Involved</p>
+  <div class="btn-group btn-bolder ">
+    <label class="btn btn-white "
+           ng-repeat="teamMember in teamMembers | filter:{status:'ACTIVE'} track by $index"
+           ng-click="clickCheck(sortFilter.teamMembers, teamMember.key)"
+           ng-model="cType.e[$index]" btn-checkbox>
+      <i><img  class="img-rounded male" src="http://s.gravatar.com/avatar/{{teamMember.emailAddress|md5}}?s=30" alt=""></i>
+      <span class="user-name " style="color: #36454F;">{{teamMember | firstNameLastInit}}</span>
+    </label>
+  </div>
+</div>
+<div class="col-md-9 bottom-right">
+  <div class="col-md-12 table-overflow">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+          <th style="width: 8%;" class="th-sort-by" ng-click="sortFilter.sortBy = '-caseNumber'"><span>Case #</span> <span class="sorting-menu" ng-class="{'sorting-no-order' : sortFilter.sortBy == '-caseNumber'}"></span></th>
+          <th style="width: 80%" class="th-sort-by" ng-click="sortFilter.sortBy = 'title'"><span>Title</span> <span class="sorting-menu" ng-class="{'sorting-no-order' : sortFilter.sortBy == 'title'}"></span></th>
+          <!--
+          <th style="width: 130px;">Affects</th>
+          <th style="width: 135px;">Value</th>
+          -->
+          <th style="width: 12%;">Team</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-click="caseTabs.add(case)"
+            ng-repeat=" case in cases
+            | filter:{caseStatus:sortFilter.caseStatus}
+            | caseTypesFilter:sortFilter.caseTypesKeys
+            | memberFilter:sortFilter.teamMembers
+            | channelFilter:global.fromChannel.key
+            | textFilter:sortFilter.keyword
+            | orderBy: sortFilter.sortBy
+            track by case.key">
+          <td>
+            <p class="bigger-150">#{{case.caseNumber| number}}</p>
+            {{case.channel.name}}
+          </td>
+
+          <td>
+            <div>
+              <span class="bolder bigger-160">{{case.title || 'N/A'}}</span> &nbsp;&nbsp; <span>{{case.description}}</span>
+            </div>
+            <div>
+              <span class="label"
+                    ng-repeat="caseType in case.caseTypesKeys"
+                    ng-class="{
+                    'label-success':(caseType| caseTypeName) =='Testimonial',
+                    'label-warning':(caseType| caseTypeName) =='Enhancement',
+                    'label-danger':(caseType| caseTypeName) =='Bug',
+                    'label-info':(caseType| caseTypeName) =='Question' }" style="margin-left: 1px;" >
+                {{caseType | caseTypeName}}
+              </span>
+              <span class="label {{'label-case-'+case.caseStatus.toLowerCase()}}" > {{case.caseStatus | capitalizeFirst}}</span>
+            </div>
+          </td>
+          <!--
+          <td style="vertical-align: middle;"><div class="customers-badge"><span class="bigger-200">{{case.affectedCustomers.length}}</span></div><span> Customers</span></td>
+          -->
+
+          <td style="padding: 4px 4px 0px 0px;" class="table-users">
+            <img class="img-rounded" src="http://s.gravatar.com/avatar/{{teamMemberHash[teamMember.key].emailAddress|md5}}?s=200" alt=""
+                 ng-repeat="teamMember in case.assignedUsers"
+                 tooltip="{{teamMemberHash[teamMember.key] | fullName}}"
+                 tooltip-placement="left">
+          </td>
+        </tr>
+        <tr ng-show="!(cases | filter:caseStatus=sortFilter.caseStatus:sortFilter.caseStatus  | filter:filterCaseTypes() | filter:filterMember() | filter:filterChannel() | filter:filterText()).length && sortFilter.keyword">
+          <td colspan="4">No matching cases for {{(global.fromChannel.key|chanName:mychannels) + ' and ' + sortFilter.keyword}}</td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div><!--  table-responsive end -->
+  </div>
+</div>

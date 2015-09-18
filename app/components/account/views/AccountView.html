@@ -1,0 +1,23 @@
+<div class="col-md-12">
+  <div class="widget-box transparent" id="recent-box">
+    <div class="widget-header">
+
+      <ul class="nav nav-tabs" id="recent-tab">
+        <li ng-class="{'active' : getActiveTabName() === 'accountBilling'}">
+          <a ui-sref="landing.account.billing" >Billing</a>
+        </li>
+
+        <li ng-class="{'active' : getActiveTabName() === 'accountPlans'}">
+          <a ui-sref="landing.account.plans">Upgrade/Downgrade</a>
+        </li>
+
+        <li ng-class="{'active' : getActiveTabName() === 'accountClose'}">
+          <a ui-sref="landing.account.close">Close Account</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <div  class="widget-body" ui-view ></div>
+  </div>
+</div>

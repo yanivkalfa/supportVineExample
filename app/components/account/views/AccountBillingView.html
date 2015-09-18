@@ -1,0 +1,161 @@
+<div class="col-md-12">
+  <p class="bigger-160">Billing & Invoices</p>
+  <p>
+    Your next charge will be on <strong>Monday, June 9, 2014</strong> for an amount of <strong>$19.00</strong>.
+  </p>
+  <p>
+    This charge will cover service until <strong>Wednesday, July 9, 2014</strong>.
+  </p>
+</div>
+<div class="col-md-12">
+  <p class="bigger-160">Invoices</p>
+  <p>
+    Once we start billing you, you'll see all your past invoices here for your reference.
+  </p>
+  <p>
+    Need to forward invoices to your accountant or billing department? Enter additional email addresses to send invoices to here (separated by a comma ","):<br>
+    <input type="text" id="email-form" name="email" ng-model="billing.addionalEmail" style="padding:4px 9px 9px" ><button class="btn btn-primary btn-sm" type="button" >Save</button>
+  </p>
+
+</div>
+<div class="col-md-12">
+  <p class="bigger-160">Payment method</p>
+  <p>
+    Your account is currenty billed to the credit card ending in <strong>{{customerCard.last4}}</strong>, valid through <strong>{{customerCard.exp_month}}/{{customerCard.exp_year}}</strong>.
+  </p>
+
+</div>
+<div class="col-md-12">
+  <p>
+    <button class="btn btn-primary btn-sm" type="button" ng-click="openNewCCDialog()" ng-hide="displayNewCCInput">Enter a new credit card</button>
+  </p>
+</div>
+
+<div class="col-md-12"  collapse="!displayNewCCInput">
+  <div class="row">
+    <div class="col-md-6">
+      <form name="newCreditCard" role="form" rc-submit="saveCreditCard()" novalidate>
+
+        <div class="form-group"  ng-class="{'has-error': rc.newCreditCard.needsAttention(newCreditCard.number)}">
+          <label>Card Number</label>
+          <input type="text" name="number" class="form-control" ng-model="newCard.number" required validator="luhnCheck">
+          <p ng-show="rc.newCreditCard.needsAttention(newCreditCard.number) && newCreditCard.number.$error.required" class="help-block">Credit card number is required.</p>
+          <p ng-show="rc.newCreditCard.needsAttention(newCreditCard.number) && newCreditCard.number.$error.validatorLuhnCheck" class="help-block">Invalid credit card number.</p>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': rc.newCreditCard.needsAttention(newCreditCard.expMonth)}">
+              <label>Exp Month</label>
+              <select name="expMonth" ng-model="newCard.expMonth" ng-options="m.value as m.innerHTML for m in months" style="width:100%; padding: 5px 4px; height: 34px;" required>
+                <option value=""> Exp Month </option>
+              </select>
+              <p ng-show="rc.newCreditCard.needsAttention(newCreditCard.expMonth) && newCreditCard.expMonth.$error.required" class="help-block">Exp month is required.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': rc.newCreditCard.needsAttention(newCreditCard.expYear)}">
+              <label>Exp Year</label>
+              <select name="expYear" ng-model="newCard.expYear" ng-options="y.value as y.innerHTML for y in years"  style="width:100%; padding: 5px 4px; height: 34px;" required>
+                <option value=""> Exp Year </option>
+              </select>
+              <p ng-show="rc.newCreditCard.needsAttention(newCreditCard.expYear) && newCreditCard.expYear.$error.required" class="help-block">Exp year is required.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': rc.newCreditCard.needsAttention(newCreditCard.cvc)}">
+              <label>CVC</label>
+              <input type="text" name="cvc" class="form-control" placeholder="Ex. 331" ng-model="newCard.cvc"  required>
+              <p ng-show="rc.newCreditCard.needsAttention(newCreditCard.cvc) && newCreditCard.cvc.$error.required" class="help-block">CVC is required.</p>
+            </div>
+          </div>
+        </div>
+        <button type="cancel" class="btn btn-primary btn-sm" ng-click="closeNewCCDialog()" >Cancel</button>
+        <button type="submit" class="btn btn-primary  btn-sm " >Validate and save card</button>
+      </form>
+    </div>
+    <div class="col-md-6"></div>
+
+  </div>
+  <p></p>
+</div>
+
+<div class="col-md-7">
+  <p class="bigger-160">Billing Address</p>
+  <p>
+    This is the address used for when we invoice you.
+  </p>
+  <form class="form-horizontal" name="billingDetails" rc-submit="saveBillingAddress()" novalidate >
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.address_line1)}">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form"> Address </label>
+      <div class="col-sm-9">
+        <input type="text" name="address_line1"  ng-model="customerCard.address_line1" class="form-control" required>
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.address_line1) && billingDetails.address_line1.$error.required" class="help-block">Address is required.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form"> </label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control"  ng-model="customerCard.address_line2">
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.address_city)}">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form"> City </label>
+      <div class="col-sm-9">
+        <input type="text" name="address_city" class="form-control"  ng-model="customerCard.address_city" required>
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.address_city) && billingDetails.address_city.$error.required" class="help-block">City is required.</span>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.address_state)}">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form">State </label>
+      <div class="col-sm-9">
+        <input type="text" name="address_state" class="form-control" ng-model="customerCard.address_state" required>
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.address_state) && billingDetails.address_state.$error.required" class="help-block">State is required.</span>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.address_zip)}">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form"> Zip </label>
+      <div class="col-sm-9">
+        <input type="text" name="address_zip" class="col-xs-9 col-sm-5 form-control"  ng-model="customerCard.address_zip" required>
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.address_zip) && billingDetails.address_zip.$error.required" class="help-block">Zip is required.</span>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.address_country)}">
+      <label class="col-sm-1 control-label no-padding-right" for="firstname-form">Country </label>
+      <div class="col-sm-9">
+        <select name="address_country" ng-model="customerCard.address_country" ng-options="c.key as c.name for c in countries"  data-placeholder="Select a Country" style="width:100%;" required>
+          <option value=""> Select a Country </option>
+        </select>
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.address_country) && billingDetails.address_country.$error.required" class="help-block">Country is required.</span>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': rc.billingDetails.needsAttention(billingDetails.phone)}">
+      <label class="col-sm-1 control-label no-padding-right" for="phone">Phone </label>
+      <div class="col-sm-9">
+        <input type="text" name="phone" class="col-xs-9 col-sm-5 form-control"  ng-model="customerCard.phone" required>
+        <!--<input type="text" id="firstname-form" name="firstname" class="form-control" value="stripe has no phone no">-->
+        <span ng-show="rc.billingDetails.needsAttention(billingDetails.phone) && billingDetails.phone.$error.required" class="help-block">Phone is required.</span>
+      </div>
+
+    </div>
+
+    <button class="btn btn-primary btn-sm" type="submit" >Save billing address</button>
+  </form>
+
+</div>
+<div class="col-md-5">
+  <p class="bigger-160">Have special invoice needs? </p>
+  <p>
+    If you need to customize the address listed on your invoices for tax purposes, enter it below. (But we still need your real billing address on the left, too!)
+  </p>
+
+  <button class="btn btn-primary btn-sm" type="button" ng-click="displayCustomBillingInput=true">Use a custom 'Bill To'</button>
+  <p></p>
+  <form class="form-horizontal" ng-show="displayCustomBillingInput">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <textarea id="form-field-11" class=" form-control" ></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-sm" type="button"  ng-click="displayCustomBillingInput=false" ng-click="saveCustomBillingAddress()" >Save custom billing address</button>
+  </form>
+</div>
